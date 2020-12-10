@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XGoals</title>
+</head>
+
+<style>
+body {
+    background-image: url("https://img.pngio.com/png-images-for-website-background-png-images-for-website-background-designs-for-websites-png-1200_600.png");
+     /* url("http://bgfons.com/uploads/grass/grass_texture224.jpg"); */
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+	.creatematch {
+	  position: relative;
+	  text-align: center;
+	  border-style: solid;
+	  border-width: 5px;
+	  display: inline-block;
+	}
+
+	.mystyle {
+		width: 25%;
+		padding: 25px;
+		border-style: solid;
+		border-width: 5px;
+		color: white;
+		font-size: 25px;
+    position: fixed;
+    bottom: 200px;
+    right: 80px;
+    width: 400px;
+	}
+
+</style>
+
+<body>
+
+<body style="background-color:rgb(255,255,255);">
+  </body>
+
+<h1> {{matchData.seriesName}}{{matchData.seasonName}}, {{matchData.homeTeamName}} vs {{matchData.awayTeamName}} </h1>
+  <header>
+    <div class="container">
+
+      <p> Click on the field to place shot. Use the goal on the left side for shots made by {{matchData.homeTeamName}}, and the goal on the right side for shots made by {{matchData.awayTeamName}}.</p>
+
+</div>
+</div>
+
+<div class="mystyle">
+<form action="/add-shot" method="POST">
+
+<div style="display:none">
+<input type="text" id="matchid" name = "matchid" value={{matchData.matchId}}></input>
+<input type="text" id="series" name = "series" value={{matchData.seriesName}}></input>
+<input type="text" id="season" name = "season" value={{matchData.seasonName}}></input>
+<input type="text" id="matchdate" name = "matchdate" value={{matchData.matchDate}}></input>
+<input type="text" id="hometeamName" name = "hometeamName" value={{matchData.homeTeamName}}></input>
+<input type="text" id="awayteamName" name = "awayteamName" value={{matchData.awayTeamName}}></input>
+</div>
+
+<label style="color:black" for="team">Team:</label>
+<select name="team" id="team" onchange="" class="param-select">
+<option value="{{matchData.homeTeamName}}" class="param-option">{{matchData.homeTeamName}}</option>
+<option value="{{matchData.awayTeamName}}" class="param-option">{{matchData.awayTeamName}}</option>
+</select>
+<br>
+<label style="color:black" for="shotoutcome">Shot Outcome:</label>
+<select name="shotoutcome" id="shotoutcome" onchange="" class="param-select">
+<option value="goal" class="param-option">Goal</option>
+<option value="nogoal" class="param-option">No Goal</option>
+</select>
+<br>
+<br>
+<label style="color:black" for="shottype">Shot Type:</label>
+<select name="shottype" id="shottype" onchange="" class="param-select">
+<option value="foot" class="param-option">Foot</option>
+<option value="header" class="param-option">Header</option>
+<option value="other" class="param-option">Other</option>
+</select>
+<br>
+<label style="color:black" for="playerpos">Number of Players in Shot Angle:</label>
+<select name="playerpos" id="playerpos" onchange="" class="param-select">
+<option value="0" class="param-option">0</option>
+<option value="1" class="param-option">1</option>
+<option value="2" class="param-option">2</option>
+<option value="3" class="param-option">3</option>
+<option value="4" class="param-option">4</option>
+<option value="5" class="param-option">5</option>
+<option value="6" class="param-option">6</option>
+<option value="7" class="param-option">7</option>
+<option value="8" class="param-option">8</option>
+<option value="9" class="param-option">9</option>
+</select>
+<br>
+<label style="color:black" for="ftime">First Time:</label>
+<select name="ftime" id="ftime" onchange="" class="param-select">
+<option value="t_ftime" class="param-option">True</option>
+<option value="f_ftime" class="param-option">False</option>
+</select>
+<br>
+<div style = "display:none">
+<label for="posx">Pos X:</label>
+<input type="text" id="posx" name="posx" value="" readonly></input>
+<br>
+<label for="posy">Pos Y:</label>
+<input type="text" id="posy" name="posy" value="" readonly></input>
+<br>
+<label style="color:black" for="xg">xG:</label>
+<input type="text" id="xg" name="xg" value="" readonly></input>
+</div>
+<br>
+<input style="font-family:'Garamond Premier'; font-size: 20px; background-color: #4CAF50; color:white; border: 2px solid #4CAF50; border-radius: 2px"; type="submit" value="Add shot">
+<br>
+<br>
+</form>
+</div>
+
+<form action="/view-match" method="POST">
+<div style="display:none;">
+  <label style="color:black" for="match">matchid:</label>
+  <input type="text" id="match" name="match" value="{{matchData.matchId}}" readonly></input>
+</div>
+<br><br>
+<input style="font-family:'Garamond Premier'; font-size: 20px; background-color: #4CAF50; color:white; border: 2px solid #4CAF50; border-radius: 2px; position: fixed; bottom: 150px; right: 80px; width: 200px;"; type="submit" value="View Statistics">
+</form>
+
+<form action="/competition-information" method="POST">
+<div style="display:none;">
+  <label style="color:black" for="competition">competitionid:</label>
+  <input type="text" id="competition" name="competition" value="{{matchData.competitionId}}" readonly></input>
+</div>
+<br><br>
+<input style="font-family:'Garamond Premier'; font-size: 20px; background-color: #909090; color:white; border: 2px solid #909090; border-radius: 2px; position: fixed; bottom: 150px; right: 340px; width: 200px;" type="submit" value="Back to Competitions">
+</form>
+
+
+<!-- creates tables that the code in javascript will get information from   -->
+<div style="display:none;" class = "container">>
+<br>
+<p> Home Team Shot Events </p>
+<table id= "homeShots" border = 1>
+  {%
+  for item, row in matchData.homeTeamShotEvents.iterrows() %}
+	<tr>
+	  <td> {{ row['shot_team'] }} </td>
+	  <td> {{ row['pos_x'] }} </td>
+	  <td> {{ row['pos_y'] }} </td>
+    <td> {{ row['shot_result'] }} </td>
+    <td> {{ row['xg'] }} </td>
+
+	</tr>
+  {% endfor %}
+</table>
+
+<br>
+<p> Away Team Shot Events </p>
+<table id= "awayShots" border = 1>
+  {%
+  for item, row in matchData.awayTeamShotEvents.iterrows() %}
+	<tr>
+    <td> {{ row['shot_team'] }} </td>
+	  <td> {{ row['pos_x'] }} </td>
+	  <td> {{ row['pos_y'] }} </td>
+    <td> {{ row['shot_result'] }} </td>
+    <td> {{ row['xg'] }} </td>
+	</tr>
+  {% endfor %}
+</table>
+</div>
+
+
+
+
+<div style="display:none;">
+<!-- <img id="fotball_pitch" src="/static/footballfield.jpg" width="600" height="400"> -->
+<img id="fotball_pitch" src="https://img.favpng.com/13/14/25/football-pitch-street-football-athletics-field-stock-photography-png-favpng-vFG4JEJuUdkS4VFBjq0mrEuac.jpg" width="1100" height="638">
+</div>
+
+
+<div style = "float: left" class = "container">
+<canvas style = "position: fixed; left: 0px; top: 120px; z-index: 1;" id="mycanvas" width="1100" height="638"></canvas>
+<svg id="mysvg" width="1100" height="638" style= "position: fixed; left: 0px; top: 120px; z-index: 2;">
+  <circle id="shot-circle" r="6" cx="58" cy="38" stroke = "#FF0000" fill = "#FF0000" visibility = "hidden" />
+</svg>
+</div>
+
+
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script type="text/javascript">
+
+
+  document.addEventListener('click', printMousePos, true);
+  function printMousePos(e){
+
+	cursorX = e.clientX;
+	cursorY = e.clientY;
+
+  var c = document.getElementById("mycanvas");
+  var ctx = c.getContext("2d");
+
+	canvasElem = document.getElementById("mycanvas")
+	rect = canvasElem.getBoundingClientRect();
+
+	if ( rect.left + 40 < cursorX && cursorX < rect.right -49  && rect.top + 36 < cursorY && rect.bottom - 39 > cursorY ){
+		imageX = e.clientX - rect.left;
+		imageY = e.clientY - rect.top;
+
+    fieldX = 0.11907387*imageX - 5.00110254
+    fieldY = 0.14184397*imageY - 5.24822695
+
+    X_adjusted = 0.11928*cursorX - 6.083499
+    Y_adjusted = 0.1426025*cursorY - 21.6755793
+
+    if (fieldX > 60) {
+        fieldX = 120 - fieldX
+        fieldY = 80 - fieldY
+    }
+
+
+    $('#shot-circle').attr('cx', imageX).attr('cy', imageY).attr('visibility', 'visible')
+
+		document.getElementById("posx").value = fieldX;
+		document.getElementById("posy").value = fieldY;
+    shot_type = document.getElementById("shottype").value
+    player_pos = document.getElementById("playerpos").value
+    first_time = document.getElementById("ftime").value
+
+		$.ajax({
+			type: "POST",
+			url: "/get-xg",
+			data: { posx: fieldX, posy: fieldY, shottype: shot_type, playerpos: player_pos, ftime: first_time },
+			success: function(response){
+				document.getElementById("xg").value = response; }
+		});
+
+	}
+}
+
+window.onload = function() {
+
+// Get the canvas object and draw the football field image
+var c = document.getElementById("mycanvas");
+var ctx = c.getContext("2d");
+var img = document.getElementById("fotball_pitch");
+ctx.drawImage(img, 0, 0, 1100, 638);
+
+var pointSize = 6;
+//Get the home team table with all shots info
+var table = document.getElementById("homeShots");
+
+//Loop through all shots
+for (var i = 0, row; row = table.rows[i]; i++) {
+//iterate through rows and get x and y position
+x = row.cells[1].innerText;
+y = row.cells[2].innerText;
+
+home_x = x*8.375 + 45
+home_y = y*7.05 + 37
+xg = row.cells[4].innerText;
+
+if (row.cells[3].innerText == 1){
+  ctx.fillStyle = "#35f213"
+} else {
+  ctx.fillStyle = "#eb0c0c"
+}
+
+//Plot the shot point on the canvas.
+ctx.beginPath();
+ctx.arc(home_x, home_y, pointSize, 0, Math.PI * 2, true);
+//ctx.arc(cursorX, cursorY, pointSize, 0, Math.PI * 2, true);
+ctx.fill();
+ctx.fillStyle = "#fcffff"
+ctx.font = 'bold 20px serif';
+
+ctx.fillText(xg, home_x + 7, home_y+10);
+//ctx.fillText(xg, cursorX + 7, cursorY+10);
+}
+
+//Get the away team table with all shots info
+var table = document.getElementById("awayShots");
+
+//Loop through all shots
+for (var i = 0, row; row = table.rows[i]; i++) {
+//iterate through rows and get x and y position
+x = row.cells[1].innerText;
+y = row.cells[2].innerText;
+
+away_x = (120-x)*8.375 + 45
+away_y = (80-y)*7.05 + 37
+xg = row.cells[4].innerText;
+
+if (row.cells[3].innerText == 1){
+  ctx.fillStyle = "#35f213"
+} else {
+  ctx.fillStyle = "#eb0c0c"
+}
+
+//Plot the shot point on the canvas.
+ctx.beginPath();
+ctx.arc(away_x, away_y, pointSize, 0, Math.PI * 2, true);
+//ctx.arc(cursorX, cursorY, pointSize, 0, Math.PI * 2, true);
+ctx.fill();
+ctx.fillStyle = "#fcffff"
+ctx.font = 'bold 20px serif';
+ctx.fillText(xg, away_x + 7, away_y+10);
+}
+
+}
+
+</script>
+
+</body>
+</html>

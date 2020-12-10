@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Series</title>
+
+	<style>
+	body {
+			background-image: url("http://bgfons.com/uploads/grass/grass_texture224.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+	}
+
+
+ .creatematch {
+	  position: center;
+	  text-align: center;
+	  border-style: solid;
+	  border-width: 5px;
+	  display: inline-block;
+	}
+
+	.mystyle {
+    position: center;
+		width: 25%;
+		padding: 25px;
+		border-style: solid;
+		border-width: 5px;
+		color: white;
+		font-size: 40px;
+    text-align: center
+	}
+
+  h1 {
+    font-size: 40px;
+    text-align: center;
+  }
+
+  input {
+    text-align: left;
+    height: 50px;
+    width: 200px;
+    font-size: 18px;
+  }
+
+  select {
+    text-align: center;
+    height: 50px;
+    width: 200px;
+    font-size: 15px;
+  }
+
+  label{
+    text-align: center;
+    font-size: 50px;
+  }
+
+  input{
+    position: center;
+  }
+
+  .mystyle2 {
+    width: 75%;
+    padding: 25px;
+    border-style: solid;
+    border-width: 5px;
+    color: white;
+    font-size: 18px;
+    align: center;
+  }
+
+  p {
+    font-size: 14px;
+  }
+
+.group label {
+  font-size: 20px;
+}
+
+	</style>
+
+	<script type="text/javascript">
+
+	</script>
+
+</head>
+
+
+<body>
+<h1 style="color:white; text-align:left" > Select or Create a Competition</h1>
+<h2 style="color:black; text-align:left" > Select a Competition</h2>
+<div class="mystyle2">
+    <div class="container">
+      <div class="row">
+        <div class="twelve columns">
+        <form action="/competition-information" method="POST">
+          <div class="group">
+            <br>
+          <label style="color:black" for="series">Competitions:  </label>
+        	<select name="competition" id="competition" onchange="" class="param-select" style="width: 200px; height: 30px; font-family:'Garamond Premier'">
+        			  {%
+        			  for index, row in competitions.all_competitions.iterrows() %}
+        			  <option value="{{ row['seriesid'] }}" class="param-option">{{ row['seriesname'] }} : {{ row['season'] }}</option>
+        			  {% endfor %}
+        	</select>
+          </div>
+	         <br>
+	           <input type="submit" value="View Competition" style = "text-align: center; font-family:'Garamond Premier'; font-size: 20px; background-color: white; color:black; border: 2px solid #4CAF50; border-radius: 2px;">
+	          <br><br>
+         </form>
+     </div>
+     </div>
+     </div>
+     </div>
+
+<br><br>
+
+<h2 style="color:black; text-align:left" > Create New Competition</h2>
+
+  <div class="mystyle2">
+    <form action="/create-competition" method="POST">
+       <br>
+       <div class="group">
+       <label style="color:black" for="compname">Competition Name: </label>
+       <input type="text" id="compname" name="compname" value="" style="width: 200px; height: 25px; font-family:'Garamond Premier'"></input>
+       </div>
+       <br>
+       <div class="group">
+       <label style="color:black" for="season">Season (Year): </label>
+       <input type="text" id="season" name="season" value="" style="width: 200px; height: 25px; font-family:'Garamond Premier'"></input>
+       </div>
+      <br>
+      <div class="group">
+       <label style="color:black" for="country">Country:</label>
+       <input type="text" id="country" name="country" value="" style="width: 200px; height: 25px; font-family:'Garamond Premier'"></input>
+       </div>
+       <br>
+       <div class="group">
+        <label style="color:black" for="gender">Gender:</label>
+        <select name="gender" id="gender" onchange="" class="param-select" style="width: 200px; height: 30px; font-family:'Garamond Premier'">
+              <option value= "Women" class="param-option">Women</option>
+              <option value= "Men" class="param-option">Men</option>
+        </select>
+        </div>
+      <br><br>
+      <input type="submit" value="Create Competition" style = "text-align: center; font-family:'Garamond Premier'; font-size: 20px; background-color: white; color:black; border: 2px solid #4CAF50; border-radius: 2px;">
+      <br><br>
+      </form>
+
+    </div>
+
+
+<img src="" alt="" width="0" height="0">
+
+<script type="text/javascript">
+
+</script>
+
+</body>
+</html>

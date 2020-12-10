@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>XGoals Options</title>
+
+	<style>
+	body {
+			background-image: url("http://bgfons.com/uploads/grass/grass_texture224.jpg");
+			background-repeat: no-repeat;
+			background-size: cover;
+	}
+
+  .creatematch {
+	  position: relative;
+	  text-align: center;
+	  border-style: solid;
+	  border-width: 5px;
+	  display: inline-block;
+	}
+
+	.mystyle {
+		width: 75%;
+		padding: 25px;
+		border-style: solid;
+		border-width: 5px;
+		color: white;
+		font-size: 18px;
+	}
+
+  .group label {
+    font-size: 20px;
+  }
+
+  h1 {
+    font-size: 40px;
+    text-align: left;
+  }
+
+	</style>
+
+</head>
+<body>
+  <h1 style="color:white">Competition Information</h1>
+
+  <div class="mystyle">
+
+  <h2 style="color:black" id=""> {{competition.name}}, {{competition.season}}, {{competition.country}}</h2>
+
+  </div>
+  <br>
+
+<h2 style="color:black; text-align:left" > View or Edit Match</h2>
+<div class="mystyle">
+<table><td>
+
+<form action="/view-match" method="POST">
+
+<div class="group">
+	<label style="color:black" for="series">Select match:</label>
+	<select name="match" id="match" onchange="" class="param-select">
+		  {%
+		  for index, row in competition.all_matches.iterrows() %}
+		  <option value="{{ row['matchid'] }}" class="param-option">{{ row['date'] }}: {{ row['home_team'] }} - {{ row['away_team']}}</option>
+		  {% endfor %}
+	</select>
+  </div>
+	<br>
+	<input type="submit" name="view_button" value="View Match" style = "font-family:'Garamond Premier'; font-size: 20px; background-color: white; color:black; border: 2px solid #4CAF50; border-radius: 2px;">
+	<button type="submit" formaction="/edit-match" style = "font-family:'Garamond Premier'; font-size: 20px; background-color: white; color:black; border: 2px solid #4CAF50; border-radius: 2px;">Edit Match</button>
+</form>
+</td></table>
+</div>
+
+<br>
+
+<h2 style="color:black; text-align:left" > Create Match</h2>
+<div class="mystyle">
+
+  <form action="/create-match" method="POST">
+    <div style="display:none">
+    <input type="text" id="competitionid" name = "competitionid" value={{competition.id}}></input>
+    <input type="text" id="name" name = "name" value={{competition.name}}></input>
+    <input type="text" id="season" name = "season" value={{competition.season}}></input>
+    <input type="text" id="gender" name = "gender" value={{competition.gender}}></input>
+    <input type="text" id="country" name = "country" value={{competition.country}}></input>
+    </div>
+
+    <br>
+
+    <div class="group">
+    <label style="color:black" for="series">Date:</label>
+    <input type="text" id="date" name="date" value="" style="width: 200px; height: 20px; font-family:'Garamond Premier'"></input>
+    </div>
+    <br>
+    <div class="group">
+    <label style="color:black" for="series">Hometeam:</label>
+    <input type="text" id="hometeam" name="hometeam" value="" style="width: 200px; height: 20px; font-family:'Garamond Premier'"></input>
+    </div>
+  	<br>
+    <div class="group">
+    <label style="color:black" for="series">Awayteam:</label>
+    <input type="text" id="awayteam" name="awayteam" value="" style="width: 200px; height: 20px; font-family:'Garamond Premier'"></input>
+    </div>
+  	<br>
+  	<input type="submit" value="Create Match" style = "font-family:'Garamond Premier'; font-size: 20px; background-color: white; color:black; border: 2px solid #4CAF50; border-radius: 2px;">
+  	<br><br>
+  	</form>
+
+  </div>
+
+<p style = "color:white" id="demo"> test</p>
+
+<!-- -->
+<script type="text/javascript">
+
+function seriesSelected() {
+
+var x = document.getElementById("seriesname").value;
+document.getElementById("year").value = "years";
+
+};
+
+function yearSelected() {
+
+// var x = document.getElementById("match").value;
+document.getElementById("demo").innerHTML = "Series Selected";
+document.getElementById("awayteam").value = "Series Selected";
+
+};
+
+
+</script>
+
+</body>
+</html>

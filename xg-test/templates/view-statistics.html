@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>VS</title>
+
+	<style>
+  table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
+
+  body {
+			background-image: url("https://img.pngio.com/png-images-for-website-background-png-images-for-website-background-designs-for-websites-png-1200_600.png");
+			background-repeat: no-repeat;
+			background-size: cover;
+	}
+
+
+  div.fixed {
+  position: fixed;
+  bottom: 600px;
+  right: 100px;
+  width: 300px;
+}
+	</style>
+</head>
+<body>
+
+  <body style="background-color:rgb(255,255,255);">
+  </body>
+
+<h1 > {{matchData.homeTeamName}} vs {{matchData.awayTeamName}}, {{matchData.seriesName}} {{matchData.seasonName}}</h1>
+
+
+<div style="display:none;">
+<!-- <img id="fotball_pitch" src="/static/footballfield.jpg" width="600" height="400"> -->
+<img id="fotball_pitch" src="https://img.favpng.com/13/14/25/football-pitch-street-football-athletics-field-stock-photography-png-favpng-vFG4JEJuUdkS4VFBjq0mrEuac.jpg" width="1100" height="700">
+</div>
+
+<div style = "float:left" class = "container">
+<canvas id="canvas" width="1100" height="700"></canvas>
+</div>
+
+<br>
+<div class="fixed">
+  <h1 >Match Statistics</h1>
+</div>
+
+<table border = 1px solid black>
+  <table cellpadding='10' style="width:33%; margin-top:100px; margin-left:10px;" align="right">
+    <tr>
+      <th align='center' colspan='3'> Match Statistics</th>
+    </tr>
+    <tr>
+      <th align='center'> {{matchData.homeTeamName}} </th>
+      <th align='center'>Statistics</th>
+      <th align='center'> {{matchData.awayTeamName}}</th>
+    </tr>
+    <tr>
+        <td align='center'> {{matchData.homeTeamNumShots}}</td>
+        <td align='center'> Shots </td>
+        <td align='center'> {{matchData.awayTeamNumShots}} </td>
+      </tr>
+      <tr>
+        <td align='center'> {{matchData.homeTeamGoals}}</td>
+        <td align='center'> Goals </td>
+        <td align='center'> {{matchData.awayTeamGoals}}</td>
+      </tr>
+      <tr>
+        <td align='center'> {{matchData.homeTeamXG}}</td>
+        <td align='center'> Expected Goals </td>
+        <td align='center'> {{matchData.awayTeamXG}}</td>
+      </tr>
+    </table>
+
+    <form action="/competition-information" method="POST">
+    <div style="display:none;">
+      <label style="color:black" for="competition">competitionid:</label>
+      <input type="text" id="competition" name="competition" value="{{matchData.competitionId}}" readonly></input>
+    </div>
+    <br><br>
+    <input style="font-family:'Garamond Premier'; font-size: 20px; background-color: #909090; color:white; border: 2px solid #909090; border-radius: 2px; position: fixed; bottom: 360px; right: 330px; width: 200px;" type="submit" value="Back to Competitions">
+    </form>
+
+    <form action="/edit-match" method="POST">
+    <div style="display:none;">
+      <label style="color:black" for="match">matchid:</label>
+      <input type="text" id="match" name="match" value="{{matchData.matchId}}" readonly></input>
+    </div>
+    <br><br>
+    <input style="font-family:'Garamond Premier'; font-size: 20px; background-color: #4CAF50; color:white; border: 2px solid #4CAF50; border-radius: 2px; position: fixed; bottom: 360px; right: 80px; width: 200px;"; type="submit" value="Edit Match">
+    </form>
+
+  <br>
+  <br>
+
+
+<div style="display:none;" class = "container">>
+<br>
+<p> Home Team Shot Events </p>
+<table id= "homeShots" border = 1>
+  {%
+  for item, row in matchData.homeTeamShotEvents.iterrows() %}
+	<tr>
+	  <td> {{ row['shot_time'] }} </td>
+	  <td> {{ row['shot_team'] }} </td>
+	  <td> {{ row['shot_player'] }} </td>
+	  <td> {{ row['pos_x'] }} </td>
+	  <td> {{ row['pos_y'] }} </td>
+	  <td> {{ row['body_part'] }} </td>
+	  <td> {{ row['shot_type'] }} </td>
+	  <td> {{ row['under_pressure'] }} </td>
+	  <td> {{ row['preceded_by'] }} </td>
+	  <td> {{ row['play_type'] }} </td>
+	  <td> {{ row['shot_result'] }} </td>
+	  <td> {{ row['xg'] }} </td>
+	</tr>
+  {% endfor %}
+</table>
+
+<br>
+<p> Away Team Shot Events </p>
+<table id= "awayShots" border = 1>
+  {%
+  for item, row in matchData.awayTeamShotEvents.iterrows() %}
+	<tr>
+	  <td> {{ row['shot_time'] }} </td>
+	  <td> {{ row['shot_team'] }} </td>
+	  <td> {{ row['shot_player'] }} </td>
+	  <td> {{ row['pos_x'] }} </td>
+	  <td> {{ row['pos_y'] }} </td>
+	  <td> {{ row['body_part'] }} </td>
+	  <td> {{ row['shot_type'] }} </td>
+	  <td> {{ row['under_pressure'] }} </td>
+	  <td> {{ row['preceded_by'] }} </td>
+	  <td> {{ row['play_type'] }} </td>
+	  <td> {{ row['shot_result'] }} </td>
+	  <td> {{ row['xg'] }} </td>
+	</tr>
+  {% endfor %}
+</table>
+</div>
+
+<script>
+
+// windows.onload() is executed when the page is created
+
+window.onload = function() {
+
+// Get the canvas object and draw the football field image
+var c = document.getElementById("canvas");
+var ctx = c.getContext("2d");
+var img = document.getElementById("fotball_pitch");
+ctx.drawImage(img, 0, 0, 1100, 700);
+
+
+//Set point size and color
+var pointSize = 6;
+ctx.fillStyle = "#ff2626"; // Red color
+
+//Get the home team table with all shots info
+var table = document.getElementById("homeShots");
+
+//Loop through all shots
+for (var i = 0, row; row = table.rows[i]; i++) {
+//iterate through rows and get x and y position
+x = row.cells[3].innerText;
+y = row.cells[4].innerText;
+
+home_x = x*8.375 + 45
+home_y = y*7.7 + 42
+xg = row.cells[11].innerText;
+
+if (row.cells[10].innerText == 1){
+  ctx.fillStyle = "#35f213"
+} else {
+  ctx.fillStyle = "#eb0c0c"
+}
+
+//Plot the shot point on the canvas.
+ctx.beginPath();
+ctx.arc(home_x, home_y, pointSize, 0, Math.PI * 2, true);
+ctx.fill();
+ctx.fillStyle = "#fcffff"
+ctx.font = 'bold 20px serif';
+ctx.fillText(xg, home_x + 7, home_y+10);
+}
+
+//Get the away team table with all shots info
+var table = document.getElementById("awayShots");
+
+//Loop through all shots
+for (var i = 0, row; row = table.rows[i]; i++) {
+//iterate through rows and get x and y position
+x = row.cells[3].innerText;
+y = row.cells[4].innerText;
+
+away_x = (120-x)*8.375 + 45
+away_y = (80-y)*7.7 + 42
+xg = row.cells[11].innerText;
+
+if (row.cells[10].innerText == 1){
+  ctx.fillStyle = "#35f213"
+} else {
+  ctx.fillStyle = "#eb0c0c"
+}
+
+//Plot the shot point on the canvas.
+ctx.beginPath();
+ctx.arc(away_x, away_y, pointSize, 0, Math.PI * 2, true);
+ctx.fill();
+ctx.fillStyle = "#fcffff"
+ctx.font = 'bold 20px serif';
+ctx.fillText(xg, away_x + 7, away_y+10);
+}
+
+};
+
+</script>
+
+</body>
+</html>
