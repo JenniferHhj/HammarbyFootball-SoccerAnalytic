@@ -58,8 +58,9 @@ Helper functions and data store communication functions:
 Stores and retrieves data objects in datastore (Competitions, Matches, and Shots). 
 
 The GUI code folder further explains how to run and navigate the interface.
- 
- 
+
+Final News Release: https://docs.google.com/document/d/1y7yh7IGzfjvXpT64z3_3V_3g5vMPyJ2lC_YbbErB5O8/edit?usp=sharing
+Soccer Analytic Presentation: https://drive.google.com/drive/folders/1YjfdAPZc2dtEcewJQ10LzuqAEMFj2sts?usp=sharing
  
  
  
